@@ -1,4 +1,5 @@
 import subprocess
+import os
 
 scanner_list = [
     'msbuild',
@@ -14,7 +15,7 @@ scanner_list = [
 
 class AutoSonar:
     def __init__(self, project_path='.', scanner=None, url='http://localhost:9000', token=None, key=None):
-        self.project_path = project_path
+        self.project_path = os.path.abspath(project_path)
         self.scanner = scanner
         self.scanner_map = {
             'msbuild': self.run_msbuild,
@@ -24,7 +25,8 @@ class AutoSonar:
             # 'jenkins': self.run_jenkins,
             'sonar_scanner': self.run_sonar_scanner
         }
-        self.params = [f'-Dsonar.host.url={url}']
+        self.params = [f'-Dsonar.host.url={url}',
+                       f'-Dsonar.projectBaseDir={project_path}']
         if token is not None:
             self.params.append(f'-Dsonar.login={token}')
         if key is not None:
