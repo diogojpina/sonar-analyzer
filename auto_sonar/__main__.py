@@ -4,7 +4,7 @@ from auto_sonar import AutoSonar
 
 def main():
     args = parse()
-    auto_s = AutoSonar(args.path, args.scanner)
+    auto_s = AutoSonar(args.path, args.scanner, args.url, args.token, args.key)
 
     auto_s.run()
 

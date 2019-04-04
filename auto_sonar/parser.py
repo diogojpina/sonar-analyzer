@@ -18,6 +18,7 @@ def parse():
                             'sonar_scanner'])
     parser.add_argument('-u', '--url', default='http://localhost:9000')
     parser.add_argument('-t', '--token', default=None)
+    parser.add_argument('-k', '--project_key', default=None)
 
     args = parser.parse_args()
     return args

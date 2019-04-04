@@ -13,20 +13,22 @@ scanner_list = [
 
 
 class AutoSonar:
-    def __init__(self, project_path='.', scanner=None, url='http://localhost:9000', token=None):
+    def __init__(self, project_path='.', scanner=None, url='http://localhost:9000', token=None, key=None):
         self.project_path = project_path
         self.scanner = scanner
         self.scanner_map = {
-            'msbuild': self._run_msbuild,
-            'maven': self._run_maven,
-            'gradle': self._run_gradle,
-            'ant': self._run_ant,
-            # 'jenkins': self._run_jenkins,
-            'sonar_scanner': self._run_sonar_scanner
+            'msbuild': self.run_msbuild,
+            'maven': self.run_maven,
+            'gradle': self.run_gradle,
+            'ant': self.run_ant,
+            # 'jenkins': self.run_jenkins,
+            'sonar_scanner': self.run_sonar_scanner
         }
         self.params = [f'-Dsonar.host.url={url}']
         if token is not None:
             self.params.append(f'-Dsonar.login={token}')
+        if key is not None:
+            self.params.append(f'-Dsonar.projectKey={key}')
 
     def run(self):
         if self.scanner is not None:
@@ -35,18 +37,18 @@ class AutoSonar:
         for _, scanner in self.scanner_map.items():
             scanner()
 
-    def _run_msbuild(self):
+    def run_msbuild(self):
         print(f'msbuild on path {self.project_path}')
 
-    def _run_maven(self):
+    def run_maven(self):
         print(f'Trying Maven on path {self.project_path}...')
         try:
-            subprocess.run(['mvn', 'clean', 'verify',
+            subprocess.run(['mvn', 'clean', 'verify', '-f', f'{self.project_path}/pom.xml',
                             'sonar:sonar', *self.params])
         except:
             print('Could not run Maven.')
 
-    def _run_gradle(self):
+    def run_gradle(self):
         print(f'Trying Gradle on path {self.project_path}...')
         try:
             subprocess.run(
@@ -54,7 +56,7 @@ class AutoSonar:
         except:
             print('Could not run Gradle.')
 
-    def _run_ant(self):
+    def run_ant(self):
         print(f'Trying Ant on path {self.project_path}...')
         try:
             subprocess.run(
@@ -62,10 +64,10 @@ class AutoSonar:
         except:
             print('Could not run Ant.')
 
-    # def _run_jenkins(self):
+    # def run_jenkins(self):
     #     print(f'jenkins on path {self.project_path}')
 
-    def _run_sonar_scanner(self):
+    def run_sonar_scanner(self):
         print(f'Trying Sonar Scanner on path {self.project_path}...')
         try:
             subprocess.run(
