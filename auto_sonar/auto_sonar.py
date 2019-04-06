@@ -26,7 +26,7 @@ class AutoSonar:
             'sonar_scanner': self.run_sonar_scanner
         }
         self.params = [f'-Dsonar.host.url={url}',
-                       f'-Dsonar.projectBaseDir={project_path}']
+                       f'-Dsonar.projectBaseDir={self.project_path}']
         if token is not None:
             self.params.append(f'-Dsonar.login={token}')
         if key is not None:
@@ -54,7 +54,8 @@ class AutoSonar:
         print(f'Trying Gradle on path {self.project_path}...')
         try:
             subprocess.run(
-                ['gradle', 'sonarqube', *self.params])
+                [os.path.join(self.project_path, 'gradlew'),
+                 'sonarqube', '-p', self.project_path, *self.params])
         except:
             print('Could not run Gradle.')
 
