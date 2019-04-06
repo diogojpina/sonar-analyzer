@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 
-from auto_sonar import scanner_list
+from auto_sonar import SCANNER_LIST
 
 
 def parse():
@@ -9,13 +9,7 @@ def parse():
         prog='auto_sonar')
     parser.add_argument('-p', '--path', default='.')
     parser.add_argument('-s', '--scanner',
-                        choices=[
-                            'msbuild',
-                            'maven',
-                            'gradle',
-                            'ant',
-                            'jenkins',
-                            'sonar_scanner'])
+                        choices=SCANNER_LIST)
     parser.add_argument('-u', '--url', default='http://localhost:9000')
     parser.add_argument('-t', '--token', default=None)
     parser.add_argument('-k', '--project_key', default=None)

@@ -1,16 +1,25 @@
 import subprocess
 import os
 
-scanner_list = [
+
+CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
+
+SCANNER_LIST = [
     'msbuild',
     'maven',
     'gradle',
     'ant',
-    'jenkins',
     'sonar_scanner'
 ]
 
-# TODO: jenkins and msbuild
+# TODO:  msbuild
+
+
+def run_command(execution_array):
+    try:
+        return subprocess.run(execution_array).returncode
+    except:
+        return -1
 
 
 class AutoSonar:
@@ -22,7 +31,6 @@ class AutoSonar:
             'maven': self.run_maven,
             'gradle': self.run_gradle,
             'ant': self.run_ant,
-            # 'jenkins': self.run_jenkins,
             'sonar_scanner': self.run_sonar_scanner
         }
         self.params = [f'-Dsonar.host.url={url}',
@@ -44,36 +52,40 @@ class AutoSonar:
 
     def run_maven(self):
         print(f'Trying Maven on path {self.project_path}...')
-        try:
-            subprocess.run(['mvn', 'clean', 'verify', '-f', f'{self.project_path}/pom.xml',
-                            'sonar:sonar', *self.params])
-        except:
+        execution_array = [
+            'mvn', 'clean', 'verify',
+            '-f', os.path.join(self.project_path, 'pom.xml'),
+            'sonar:sonar', *self.params]
+        code = run_command(execution_array)
+        if code:
             print('Could not run Maven.')
 
     def run_gradle(self):
         print(f'Trying Gradle on path {self.project_path}...')
-        try:
-            subprocess.run(
-                [os.path.join(self.project_path, 'gradlew'),
-                 'sonarqube', '-p', self.project_path, *self.params])
-        except:
+        execution_array = [
+            os.path.join(self.project_path, 'gradlew'),
+            'sonarqube', '-p', self.project_path,
+            *self.params]
+        code = run_command(execution_array)
+        if code:
             print('Could not run Gradle.')
 
     def run_ant(self):
         print(f'Trying Ant on path {self.project_path}...')
-        try:
-            subprocess.run(
-                ['ant', 'sonar', *self.params])
-        except:
-            print('Could not run Ant.')
+        execution_array = [
+            'ant', 'sonar',
+            '-buildfile', os.path.join(self.project_path, 'build.xml'),
+            *self.params]
 
-    # def run_jenkins(self):
-    #     print(f'jenkins on path {self.project_path}')
+        code = run_command(execution_array)
+        if code:
+            print('Could not run Ant.')
 
     def run_sonar_scanner(self):
         print(f'Trying Sonar Scanner on path {self.project_path}...')
-        try:
-            subprocess.run(
-                ['sonar-scanner', *self.params])
-        except:
+        execution_array = [
+            os.path.join(CURRENT_PATH, '../sonar-scanner/bin/sonar-scaner'),
+            *self.params]
+        code = run_command(execution_array)
+        if code:
             print('Could not run Sonar Scanner.')
