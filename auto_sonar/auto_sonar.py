@@ -59,6 +59,7 @@ class AutoSonar:
         code = run_command(execution_array)
         if code:
             print('Could not run Maven.')
+        return code
 
     def run_gradle(self):
         print(f'Trying Gradle on path {self.project_path}...')
@@ -69,6 +70,7 @@ class AutoSonar:
         code = run_command(execution_array)
         if code:
             print('Could not run Gradle.')
+        return code
 
     def run_ant(self):
         print(f'Trying Ant on path {self.project_path}...')
@@ -80,6 +82,7 @@ class AutoSonar:
         code = run_command(execution_array)
         if code:
             print('Could not run Ant.')
+        return code
 
     def run_sonar_scanner(self):
         print(f'Trying Sonar Scanner on path {self.project_path}...')
@@ -89,3 +92,4 @@ class AutoSonar:
         code = run_command(execution_array)
         if code:
             print('Could not run Sonar Scanner.')
+        return code
