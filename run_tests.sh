@@ -1,2 +1,2 @@
 #!/bin/bash
-PYTHONPATH=$PWD pytest pytest --cov=./
+PYTHONPATH=$PWD pytest --cov=./
