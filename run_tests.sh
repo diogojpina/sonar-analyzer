@@ -1,2 +1,2 @@
 #!/bin/bash
-PYTHONPATH=$PWD pytest --cov=./
+PYTHONPATH=$PWD pytest --cov=auto_sonar
