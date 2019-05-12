@@ -12,7 +12,6 @@ from
 	inner join live_measures l on i.component_uuid = l.component_uuid
 	inner join metrics m on l.metric_id = m.id
 where
-	i.kee in ( -- uuid's das dívidas técnicas com tipo BLOCKER ou CRITICAL
-		(select kee from issues where severity IN ('BLOCKER', 'CRITICAL'))
-	)
+	-- uuid's das dívidas técnicas com tipo BLOCKER ou CRITICAL
+	i.severity in ('BLOCKER', 'CRITICAL')
 	and l.metric_id in (3, 18) -- metricas que se deseja extrair do arquivo em questao
