@@ -1,0 +1,5 @@
+rules - tipos de divida tecnica
+metrics - tipos de metrica
+project - modulos, classes, projeto 
+project_measures/live_measures - projeto <> metricas
+issues - dividas tecnicas (regra <> classe/modulo)
