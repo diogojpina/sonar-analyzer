@@ -1,0 +1,60 @@
+// https://dbdiagram.io/d
+//// -- LEVEL 1
+//// -- Tables and References
+
+// Creating tables
+Table rules {
+  id int [pk] // auto-increment
+  name varchar
+  //created_at timestamp
+  //country_code int
+}
+
+Table issues {
+  id int [pk]
+  component_uuid uuid
+  project_uuid uuid
+  severity varchar
+  kee uuid
+  message varchar
+  line int
+  rule_id int //[ref: > rules.id] // inline relationship (many-to-one)
+}
+
+Table metrics {
+  id int [pk]
+  name varchar
+ }
+ 
+Table live_measures {
+  uuid uuid [pk]
+  component_uuid uuid
+  metric_id int
+  value varchar
+ }
+ 
+Table projects {
+  uuid uuid [pk]
+  name varchar
+  scope varchar
+  qualifier varchar
+  project_uuid varchar
+ }
+ 
+// Creating references
+// You can also define relaionship separately
+// > many-to-one; < one-to-many; - one-to-one
+//Ref: U.country_code > countries.code  
+//Ref: merchants.country_code > countries.code
+
+//----------------------------------------------//
+
+
+
+Ref: "rules"."id" < "issues"."rule_id"
+
+Ref: "projects"."uuid" < "issues"."component_uuid"
+
+Ref: "live_measures"."component_uuid" < "issues"."component_uuid"
+
+Ref: "live_measures"."metric_id" < "metrics"."id"
