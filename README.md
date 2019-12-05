@@ -50,9 +50,3 @@ auto_s = AutoSonar(
     scanner='gradle')
 auto_s.run()
 ```
-
-# TCC next steps
-
-- Comparar complexity e nloc, separadamente a alguns tipos de dívida técnica (definidos na tabela rule) fazer uma análise de correlação e verificar se é possível criar um threshold para relacionar a métrica com o tipo de dívida técnica.
-- Ampliar para todos os tipos de dívida técnica
-- Ampliar para todas as métricas
