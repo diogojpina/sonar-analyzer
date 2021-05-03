@@ -46,6 +46,7 @@ Output and Input
 For more control over the execution we'll use a `ProcBuilder` instance to configure
 the process.
 
+<<<<<<< HEAD
 The run method builds and spawns the actual process and blocks until the process exits.
 The process takes care of writing the output to a stream, as opposed to the standard
 facilities in the JDK that expect the client to actively consume the
@@ -333,3 +334,13 @@ new ProcBuilder("bash")
 assertEquals("out\nout2\n", out.toString());
 assertEquals("error\nerror2\n", err.toString());
 ~~~
+=======
+```python
+# The scanner list is at auto_sonar.SCANNER_LIST
+from auto_sonar import AutoSonar
+auto_s = AutoSonar(
+    project_path='../sonar-scanning-examples/sonarqube-scanner-gradle/',
+    scanner='gradle')
+auto_s.run()
+```
+>>>>>>> 5d4fb76fdf2da4bda246661bf56b22be4c36a3e5

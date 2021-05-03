@@ -174,7 +174,11 @@ class AutoSonar:
     def run_sonar_scanner(self):
         print(f'Trying Sonar Scanner on path {self.project_path}...')
         execution_array = [
+<<<<<<< HEAD
             self.args.scanner_path,
+=======
+            os.path.join(CURRENT_PATH, '../sonar-scanner/bin/sonar-scanner'),
+>>>>>>> 5d4fb76fdf2da4bda246661bf56b22be4c36a3e5
             *self.params]
         code = run_command(execution_array)
         if code:
